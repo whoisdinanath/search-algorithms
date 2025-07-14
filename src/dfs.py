@@ -1,19 +1,21 @@
+import numpy as np
+import random
+import heapq
 import time
-from collections import deque
-from maze import get_neighbors
+from .maze import get_neighbors
 
 
-# BFS search algorithm that returns the path, final maze, search steps, and statistics
+# DFS search algorithm that returns the path, final maze, search steps, and statistics
 def search(maze, start, goal):
     start_time = time.time()
     maze_final = maze.copy()
-    queue = deque([(start, [start])])
+    stack = [(start, [start])]
     visited = set()
     search_steps = []
     nodes_visited = 0
 
-    while queue:
-        current, path = queue.popleft()
+    while stack:
+        current, path = stack.pop()
 
         if current in visited:
             continue
@@ -22,7 +24,7 @@ def search(maze, start, goal):
         nodes_visited += 1
 
         if current != start and current != goal:
-            maze_final[current] = 4  # visited
+            maze_final[current] = 4  # visited color
 
         search_steps.append({
             'maze': maze_final.copy(),
@@ -41,9 +43,10 @@ def search(maze, start, goal):
                 'execution_time': time.time() - start_time
             }
 
-        for neighbor in get_neighbors(current, maze):
+        neighbors = get_neighbors(current, maze)
+        for neighbor in reversed(neighbors):  # reverse to mimic recursive DFS
             if neighbor not in visited:
-                queue.append((neighbor, path + [neighbor]))
+                stack.append((neighbor, path + [neighbor]))
 
     return None, maze_final, search_steps, {
         'nodes_visited': nodes_visited,

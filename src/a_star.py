@@ -2,8 +2,8 @@ import numpy as np
 import random
 import heapq
 import time
-from maze import get_neighbors
-from utils import manhattan_distance
+from .maze import get_neighbors
+from .utils import manhattan_distance
 
 random.seed(42)
 np.random.seed(42)

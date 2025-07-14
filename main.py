@@ -1,8 +1,7 @@
-import numpy as np
-from maze import *
-import a_star
-import bfs
-import dfs
+from src.a_star import search as a_star_search
+from src.bfs import search as bfs_search
+from src.dfs import search as dfs_search
+from src.maze import generate_maze, place_start_goal, run_pygame_visualization
 
 
 if __name__ == "__main__":
@@ -21,13 +20,13 @@ if __name__ == "__main__":
     print("Generated Maze with Start and Goal:")
 
     if algorithm == 'A*':
-        path, final_maze, search_steps, stats = a_star.search(
+        path, final_maze, search_steps, stats = a_star_search.search(
             maze_with_sg, start_pos, goal_pos)
     elif algorithm == 'DFS':
-        path, final_maze, search_steps, stats = dfs.search(
+        path, final_maze, search_steps, stats = dfs_search.search(
             maze_with_sg, start_pos, goal_pos)
     elif algorithm == 'BFS':
-        path, final_maze, search_steps, stats = bfs.search(
+        path, final_maze, search_steps, stats = bfs_search.search(
             maze_with_sg, start_pos, goal_pos)
 
     run_pygame_visualization(search_steps, maze_with_sg.shape)
